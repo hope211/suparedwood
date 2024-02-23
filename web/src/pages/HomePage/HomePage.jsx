@@ -1,14 +1,13 @@
-import { useAuth } from '@redwoodjs/auth'
+import { useAuth } from 'web/src/auth'
 import { Link, navigate, routes } from '@redwoodjs/router'
 import { Metadata } from '@redwoodjs/web'
-import { MetaTags } from '@redwoodjs/web'
 
 import Account from 'src/components/Account'
 import Auth from 'src/components/Auth'
 
 const HomePage = () => {
   const { isAuthenticated } = useAuth()
-  
+
   return (
     <>
       <Metadata title="Home" description="Home page" />

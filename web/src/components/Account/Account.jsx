@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { useAuth } from '@redwoodjs/auth'
+import { useAuth } from 'web/src/auth'
 
 const Account = () => {
   const { client: supabase, currentUser, logOut } = useAuth()
@@ -15,12 +15,12 @@ const Account = () => {
   async function getProfile() {
     try {
       setLoading(true)
-      const user = supabase.auth.user()
+      const user = currentUser
 
       const { data, error, status } = await supabase
         .from('profiles')
         .select(`username, website, avatar_url`)
-        .eq('id', user.id)
+        .eq('id', user.sub)
         .single()
 
       if (error && status !== 406) {
@@ -42,10 +42,10 @@ const Account = () => {
   async function updateProfile({ username, website, avatar_url }) {
     try {
       setLoading(true)
-      const user = supabase.auth.user()
+      const user = currentUser
 
       const updates = {
-        id: user.id,
+        id: user.sub,
         username,
         website,
         avatar_url,

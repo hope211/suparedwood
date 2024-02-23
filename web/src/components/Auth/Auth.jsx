@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { useAuth } from '@redwoodjs/auth'
+import { useAuth } from 'web/src/auth'
 
 const Auth = () => {
   const { logIn } = useAuth()
@@ -9,7 +9,13 @@ const Auth = () => {
   const handleLogin = async (email) => {
     try {
       setLoading(true)
-      const { error } = await logIn({ email })
+      const { error } = await logIn({
+        authMethod: 'otp',
+        email: email,
+        options: {
+          emailRedirectTo: 'https://example.com/welcome',
+        },
+      })
       if (error) throw error
       alert('Check your email for the login link!')
     } catch (error) {
@@ -23,7 +29,9 @@ const Auth = () => {
     <div className="row flex-center flex">
       <div className="col-6 form-widget">
         <h1 className="header">Supabase + RedwoodJS</h1>
-        <p className="description">Sign in via magic link with your email below</p>
+        <p className="description">
+          Sign in via magic link with your email below
+        </p>
         <div>
           <input
             className="inputField"
